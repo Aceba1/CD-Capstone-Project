@@ -1,15 +1,9 @@
 package com.aceba1.cd.capstone.users;
 
-import org.bson.BsonDocument;
-import org.bson.BsonDocumentWrapper;
 import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-
-import java.util.Map;
 
 public class User  {
 
@@ -29,10 +23,6 @@ public class User  {
   public String email;
   @BsonProperty(value = "password")
   public String password;
-
-  public void securePassword() {
-    password = ;
-  }
 
   public Document getDocument(boolean includeId) {
     Document doc = new Document();
