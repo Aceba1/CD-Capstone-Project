@@ -20,9 +20,9 @@ public class Controller {
       //TODO: Return JWT
       try {
         return UserDBService.getUser(new Document("name", form.credential)).email;
-      } catch {
+      } catch(Exception E) {
         response.setStatus(HttpStatus.NOT_FOUND.value());
-        return
+        return "Not found";
       }
     }
     response.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
