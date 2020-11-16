@@ -1,5 +1,6 @@
 package com.aceba1.cd.capstone.users;
 
+import com.aceba1.cd.capstone.utils.BCrypt;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -17,16 +18,19 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 public class UserDBService {
 
   // Get values from application.properties
-  @Value("${mongodb.uri}")
+  @Value("${users.mongodb.uri}")
   private void setMongodbUri(String value) { UserDBService.MONGODB_URI = new ConnectionString(value); }
-  @Value("${mongodb.db}")
+  @Value("${users.mongodb.db}")
   private void setMongodbDb(String value) { UserDBService.MONGODB_DB = value; }
-  @Value("${mongodb.collection}")
+  @Value("${users.mongodb.collection}")
   private void setMongodbCollection(String value) { UserDBService.MONGODB_COLLECTION = value; }
+  @Value("${users.hashsalt}")
+  private void setHashSalt(String value) { UserDBService.HASHSALT = value; }
 
   private static ConnectionString MONGODB_URI;
   private static String MONGODB_DB;
   private static String MONGODB_COLLECTION;
+  private static String HASHSALT;
 
   private static MongoClient client;
   private static MongoCollection<User> users;
@@ -35,11 +39,17 @@ public class UserDBService {
     return users;
   }
 
+  public static String securePassword(String password) {
+    return BCrypt.hashpw(password, HASHSALT);
+  }
+
   public static User getUser(Document filter) {
     return users.find(filter).first();
   }
 
-  public static void insertUser(User user) {
+  public static void insertUser(User user, boolean securePassword) {
+    if (securePassword)
+      user.password = securePassword(user.password);
     users.insertOne(user);
   }
 
@@ -63,15 +73,18 @@ public class UserDBService {
   }
 
   private static void storeDatabase() {
-    users = MongoClients.create(generateSettings())
-      .getDatabase(MONGODB_DB)
-      .getCollection(MONGODB_COLLECTION, User.class);
+    client = MongoClients.create(MONGODB_URI);//(generateSettings());
+    System.out.println("---- USERS ---- Connected to MongoDB!");
+    var database = client.getDatabase(MONGODB_DB);
+    System.out.println("---- USERS ---- Connected to Database!");
+    users = database.getCollection(MONGODB_COLLECTION, User.class);
+    System.out.println("---- USERS ---- Connected to Collection!");
   }
 
   public static void connect() {
     storeDatabase();
-    System.out.println("---- MONGODB ---- User Count: " + users.countDocuments());
 
+    System.out.println("---- USERS ---- User Count: " + users.estimatedDocumentCount());
     ready = true;
   }
 }
