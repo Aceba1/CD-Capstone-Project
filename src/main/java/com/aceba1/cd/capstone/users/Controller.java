@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/")
 public class Controller {
 
-  @PutMapping("/user/login")
+  @PutMapping("${users.map.login}")
   public String login(
     @RequestBody LoginForm form,
     HttpServletResponse response
@@ -19,13 +18,18 @@ public class Controller {
       //TODO: Verify User
       //TODO: Compare to secured password
       //TODO: Return JWT
-      return UserDBService.getUsers().find(new Document("name", form.credential)).first().email;
+      try {
+        return UserDBService.getUser(new Document("name", form.credential)).email;
+      } catch {
+        response.setStatus(HttpStatus.NOT_FOUND.value());
+        return
+      }
     }
     response.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
     return "Unavailable";
   }
 
-  @PostMapping("/user/register")
+  @PostMapping("${users.map.register}")
   public String register(
     @RequestBody User form,
     HttpServletResponse response
@@ -34,7 +38,7 @@ public class Controller {
       //TODO: Verify User
       //TODO: Secure the password
       //TODO: Return JWT
-      UserDBService.insertUser(form);
+      UserDBService.insertUser(form, true);
       return form.id.toString();
     }
     response.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
