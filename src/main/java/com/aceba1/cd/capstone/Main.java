@@ -6,8 +6,8 @@ import com.aceba1.cd.capstone.users.UsersApplication;
 
 public class Main {
   public static void main(String[] args) {
-    new Thread(() -> SearchApplication.main(args)).start();
-    new Thread(() -> ProcessorApplication.main(args)).start();
     UsersApplication.main(args);
+    //SearchApplication.main(args);
+    //ProcessorApplication.main(args);
   }
 }
