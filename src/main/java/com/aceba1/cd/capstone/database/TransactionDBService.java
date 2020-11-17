@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLData;
 
-public class TransactionsDBService {
+public class TransactionDBService {
   public static void connect() {
     Connection connection = null;
     String host="localhost";
