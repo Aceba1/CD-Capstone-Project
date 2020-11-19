@@ -29,26 +29,26 @@ public class Transaction implements Serializable {
   @Column(name = "nameOrig")
   public String nameOrig;
 
-  @Column(name = "oldbalanceOrig")
+  @Column(name = "oldBalanceOrig")
   public long oldBalanceOrig;
 
-  @Column(name = "newbalanceOrig")
+  @Column(name = "newBalanceOrig")
   public long newBalanceOrig;
 
   @Column(name = "nameDest")
   public String nameDest;
 
-  @Column(name = "oldbalanceDest")
+  @Column(name = "oldBalanceDest")
   public long  oldBalanceDest;
 
-  @Column(name = "newbalanceDest")
+  @Column(name = "newBalanceDest")
   public long newBalanceDest;
 
   @Column(name = "isFraud")
-  public boolean isFraud;
+  public int isFraud;
 
   @Column(name = "isFlaggedFraud")
-  public boolean isFlaggedFraud;
+  public int isFlaggedFraud;
 
   @Override
   public String toString() {

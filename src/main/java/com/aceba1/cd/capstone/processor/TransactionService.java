@@ -33,4 +33,7 @@ public class TransactionService {
   public long getSize() {
     return repository.count();
   }
+
+  public void loadCSV() {
+  }
 }
