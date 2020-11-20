@@ -2,6 +2,12 @@ package com.aceba1.cd.capstone.processor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 
 @RestController
 public class Controller {
@@ -19,14 +25,19 @@ public class Controller {
   public Object getItem(
     @RequestParam(required = false) Long id
   ) {
-    try {
-      Thread.sleep(2000);
-    } catch(Exception e) { }
-
     if (id != null) {
       return database.findById(id);
     }
     return database.getAll();
+  }
+
+  @PostMapping("/test/db/csv")
+  public long uploadCSV(
+    @RequestBody String csv
+    //@RequestBody MultipartFile csv
+  ) {
+     database.saveAll(CSVReader.readFromCSV(new StringReader(csv)));
+     return database.getSize();
   }
 
   @PostMapping("/test/db")

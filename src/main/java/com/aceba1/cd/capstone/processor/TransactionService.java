@@ -22,6 +22,10 @@ public class TransactionService {
     repository.save(transaction);
   }
 
+  public void saveAll(Iterable<Transaction> transactions) {
+    repository.saveAll(transactions);
+  }
+
   public void delete(Transaction transaction) {
     repository.delete(transaction);
   }

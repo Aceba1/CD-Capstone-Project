@@ -52,6 +52,28 @@ public class Transaction implements Serializable {
   @Column(name = "isFlaggedFraud")
   public int isFlaggedFraud;
 
+  public Transaction() {
+
+  }
+
+  public Transaction(
+    int step, String type, long amount,
+    String nameOrig, long oldbalanceOrig, long newbalanceOrig,
+    String nameDest, long oldbalanceDest, long newbalanceDest,
+    int isFraud, int isFlaggedFraud) {
+    this.step = step;
+    this.type = type;
+    this.amount = amount;
+    this.nameOrig = nameOrig;
+    this.oldbalanceOrig = oldbalanceOrig;
+    this.newbalanceOrig = newbalanceOrig;
+    this.nameDest = nameDest;
+    this.oldbalanceDest = oldbalanceDest;
+    this.newbalanceDest = newbalanceDest;
+    this.isFraud = isFraud;
+    this.isFlaggedFraud = isFlaggedFraud;
+  }
+
   @Override
   public String toString() {
     return "Transaction{" +
