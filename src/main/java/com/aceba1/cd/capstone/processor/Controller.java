@@ -19,6 +19,10 @@ public class Controller {
   public Object getItem(
     @RequestParam(required = false) Long id
   ) {
+    try {
+      Thread.sleep(2000);
+    } catch(Exception e) { }
+
     if (id != null) {
       return database.findById(id);
     }

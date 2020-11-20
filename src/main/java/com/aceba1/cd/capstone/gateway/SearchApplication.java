@@ -10,6 +10,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @EnableAutoConfiguration(exclude={MongoAutoConfiguration.class}) // Halts a strange port-listener seeking 27017
 public class SearchApplication {
 
+  //TODO: Focus on this later!
+
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(SearchApplication.class)
 			.properties("server.port=5910")

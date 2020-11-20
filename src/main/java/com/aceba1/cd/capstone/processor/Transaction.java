@@ -29,20 +29,22 @@ public class Transaction implements Serializable {
   @Column(name = "nameOrig")
   public String nameOrig;
 
-  @Column(name = "oldBalanceOrig")
-  public long oldBalanceOrig;
+  // The false capitalization is to match the schema
 
-  @Column(name = "newBalanceOrig")
-  public long newBalanceOrig;
+  @Column(name = "oldbalanceOrig")
+  public long oldbalanceOrig;
+
+  @Column(name = "newbalanceOrig")
+  public long newbalanceOrig;
 
   @Column(name = "nameDest")
   public String nameDest;
 
-  @Column(name = "oldBalanceDest")
-  public long  oldBalanceDest;
+  @Column(name = "oldbalanceDest")
+  public long oldbalanceDest;
 
-  @Column(name = "newBalanceDest")
-  public long newBalanceDest;
+  @Column(name = "newbalanceDest")
+  public long newbalanceDest;
 
   @Column(name = "isFraud")
   public int isFraud;
@@ -58,11 +60,11 @@ public class Transaction implements Serializable {
       ", type='" + type + '\'' +
       ", amount=" + amount +
       ", nameOrig='" + nameOrig + '\'' +
-      ", oldBalanceOrig=" + oldBalanceOrig +
-      ", newBalanceOrig=" + newBalanceOrig +
+      ", oldBalanceOrig=" + oldbalanceOrig +
+      ", newBalanceOrig=" + newbalanceOrig +
       ", nameDest='" + nameDest + '\'' +
-      ", oldBalanceDest=" + oldBalanceDest +
-      ", newBalanceDest=" + newBalanceDest +
+      ", oldBalanceDest=" + oldbalanceDest +
+      ", newBalanceDest=" + newbalanceDest +
       ", isFraud=" + isFraud +
       ", isFlaggedFraud=" + isFlaggedFraud +
       '}';

@@ -36,7 +36,7 @@ public class Controller {
   ) {
     if (UserDBService.isReady()) {
       //TODO: Verify User
-      //TODO: Secure the password
+
       //TODO: Return JWT
       UserDBService.insertUser(form, true);
       return form.id.toString();
