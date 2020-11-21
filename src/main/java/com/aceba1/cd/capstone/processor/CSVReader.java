@@ -39,13 +39,13 @@ public class CSVReader {
     return new Transaction(
       Integer.parseInt(items[0]),
       items[1],
-      Long.parseLong(items[2]),
+      Double.parseDouble(items[2]),
       items[3],
-      Long.parseLong(items[4]),
-      Long.parseLong(items[5]),
+      Double.parseDouble(items[4]),
+      Double.parseDouble(items[5]),
       items[6],
-      Long.parseLong(items[7]),
-      Long.parseLong(items[8]),
+      Double.parseDouble(items[7]),
+      Double.parseDouble(items[8]),
       Integer.parseInt(items[9]),
       Integer.parseInt(items[10]));
   }

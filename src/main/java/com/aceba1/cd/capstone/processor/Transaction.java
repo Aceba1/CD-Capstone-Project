@@ -24,7 +24,7 @@ public class Transaction implements Serializable {
   public String type;
 
   @Column(name = "amount")
-  public long amount;
+  public double amount;
 
   @Column(name = "nameOrig")
   public String nameOrig;
@@ -32,19 +32,19 @@ public class Transaction implements Serializable {
   // The false capitalization is to match the schema
 
   @Column(name = "oldbalanceOrig")
-  public long oldbalanceOrig;
+  public double oldbalanceOrig;
 
   @Column(name = "newbalanceOrig")
-  public long newbalanceOrig;
+  public double newbalanceOrig;
 
   @Column(name = "nameDest")
   public String nameDest;
 
   @Column(name = "oldbalanceDest")
-  public long oldbalanceDest;
+  public double oldbalanceDest;
 
   @Column(name = "newbalanceDest")
-  public long newbalanceDest;
+  public double newbalanceDest;
 
   @Column(name = "isFraud")
   public int isFraud;
@@ -57,9 +57,9 @@ public class Transaction implements Serializable {
   }
 
   public Transaction(
-    int step, String type, long amount,
-    String nameOrig, long oldbalanceOrig, long newbalanceOrig,
-    String nameDest, long oldbalanceDest, long newbalanceDest,
+    int step, String type, double amount,
+    String nameOrig, double oldbalanceOrig, double newbalanceOrig,
+    String nameDest, double oldbalanceDest, double newbalanceDest,
     int isFraud, int isFlaggedFraud) {
     this.step = step;
     this.type = type;
