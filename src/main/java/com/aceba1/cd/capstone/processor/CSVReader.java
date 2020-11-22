@@ -4,50 +4,36 @@ import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.Iterator;
 
 public class CSVReader {
   //TODO: Expand to beyond Transaction class
 
-  public static Iterable<Transaction> readFromCSV(Reader csvFile) {
-    return new BufferedReader(csvFile)
+  public static Iterable<Transaction> readFromCSV(Reader csvFile) throws IOException {
+    BufferedReader reader = new BufferedReader(csvFile);
+
+    int[] columns = Transaction.indexesOf(reader.readLine().split(","));
+
+    return reader
       .lines()
-      .skip(1)
-      .map(CSVReader::readString)
+      .map(c -> CSVReader.readString(c, columns))
       ::iterator;
   }
 
-  public static Iterable<Transaction> readFromCSV(MultipartFile csvFile) {
-
-    try {
-      return new BufferedReader(
-        new InputStreamReader(
-          csvFile.getInputStream()
-        )
-      )
-        .lines()
-        .skip(1)
-        .map(CSVReader::readString)
-        ::iterator;
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return  null;
-  }
-
-  public static Transaction readString(String row) {
+  public static Transaction readString(String row, int[] index) {
     String[] items = row.split(",");
     return new Transaction(
-      Integer.parseInt(items[0]),
-      items[1],
-      Double.parseDouble(items[2]),
-      items[3],
-      Double.parseDouble(items[4]),
-      Double.parseDouble(items[5]),
-      items[6],
-      Double.parseDouble(items[7]),
-      Double.parseDouble(items[8]),
-      Integer.parseInt(items[9]),
-      Integer.parseInt(items[10]));
+      Integer.parseInt(items[index[0]]),
+      items[index[1]],
+      Double.parseDouble(items[index[2]]),
+      items[index[3]],
+      Double.parseDouble(items[index[4]]),
+      Double.parseDouble(items[index[5]]),
+      items[index[6]],
+      Double.parseDouble(items[index[7]]),
+      Double.parseDouble(items[index[8]]),
+      Integer.parseInt(items[index[9]]),
+      Integer.parseInt(items[index[10]]));
   }
 
 }

@@ -4,10 +4,34 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "transaction")
 public class Transaction implements Serializable {
+
+  public static int indexOf(String column) {
+    return switch (column) {
+      case "step" -> 0;
+      case "type" -> 1;
+      case "amount" -> 2;
+      case "nameOrig" -> 3;
+      case "oldbalanceOrig" -> 4;
+      case "newbalanceOrig" -> 5;
+      case "nameDest" -> 6;
+      case "oldbalanceDest" -> 7;
+      case "newbalanceDest" -> 8;
+      case "isFraud" -> 9;
+      case "isFlaggedFraud" -> 10;
+      default -> throw new IllegalArgumentException("Transaction - Column [" + column + "] does not exist!");
+    };
+  }
+
+  public static int[] indexesOf(String[] columns) {
+    return Arrays.stream(columns)
+      .mapToInt(Transaction::indexOf)
+      .toArray();
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,11 +1,14 @@
 package com.aceba1.cd.capstone.processor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 
@@ -32,12 +35,19 @@ public class Controller {
   }
 
   @PostMapping("/test/db/csv")
-  public long uploadCSV(
-    @RequestBody String csv
+  public Object uploadCSV(
+    @RequestBody String csv,
+    HttpServletResponse response
     //@RequestBody MultipartFile csv
   ) {
-     database.saveAll(CSVReader.readFromCSV(new StringReader(csv)));
-     return database.getSize();
+    try {
+      database.saveAll(CSVReader.readFromCSV(new StringReader(csv)));
+    } catch (Exception e) {
+      System.out.println(e.toString());
+      response.setStatus(HttpStatus.BAD_REQUEST.value());
+      return e.getMessage();
+    }
+    return database.getSize();
   }
 
   @PostMapping("/test/db")
