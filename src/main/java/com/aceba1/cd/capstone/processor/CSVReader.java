@@ -9,7 +9,7 @@ import java.util.Iterator;
 public class CSVReader {
   //TODO: Expand to beyond Transaction class
 
-  public static Iterable<Transaction> readFromCSV(Reader csvFile) throws IOException {
+  public static Iterator<Transaction> readFromCSV(Reader csvFile) throws IOException {
     BufferedReader reader = new BufferedReader(csvFile);
 
     int[] columns = Transaction.indexesOf(reader.readLine().split(","));
@@ -17,7 +17,7 @@ public class CSVReader {
     return reader
       .lines()
       .map(c -> CSVReader.readString(c, columns))
-      ::iterator;
+      .iterator();
   }
 
   public static Transaction readString(String row, int[] index) {

@@ -1,18 +1,15 @@
 package com.aceba1.cd.capstone.processor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.aceba1.cd.capstone.utils.MapBuilder;
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
 
 @RestController
@@ -20,14 +17,6 @@ public class Controller {
 
   @Autowired
   TransactionService database;
-  @Autowired
-  ObjectMapper mapper;
-
-  @GetMapping("/")
-  public String main() {
-    return "Helloo!";
-  }
-
 
   //TODO: Paged requests
   // accept a property for specific pages
@@ -38,64 +27,80 @@ public class Controller {
   // - array of items in page
   @GetMapping("/test/db")
   public Object getItem(
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "30") int size,
     @RequestParam(required = false) Long id
   ) {
-    if (id != null) {
-      return database.findById(id);
+    try {
+
+      if (id != null)
+        return database.findById(id);
+      else {
+        Page<Transaction> pageTr = database.repository.findAll(PageRequest.of(page, size));
+
+        return MapBuilder.create()
+          .put("data", pageTr.getContent())
+          .put("currentPage", page)
+          .put("totalItems", pageTr.getTotalElements())
+          .put("totalPages", pageTr.getTotalPages()).done();
+      }
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return database.getAll();
   }
 
   //TODO: Wrap ALL responses in objects (JSON)
 
   @GetMapping("/test/db/count")
-  public ObjectNode getCount() {
-    return mapper.createObjectNode()
-      .put("databaseSize", database.getSize());
+  public Object getCount() {
+    return MapBuilder.create()
+      .put("databaseSize", database.getSize()).done();
   }
 
   @PostMapping("/test/db/csv")
   public Object uploadCSV(
-    @RequestBody String csv,
-    HttpServletResponse response
+    @RequestBody String csv
     //@RequestBody MultipartFile csv
   ) {
     try {
-      database.saveAll(CSVReader.readFromCSV(new StringReader(csv)));
+      long count = database.saveAll(CSVReader.readFromCSV(new StringReader(csv)));
+
+      return new ResponseEntity<>(MapBuilder.create()
+          .put("databaseSize", database.getSize())
+          .put("csvSize", count).done(),
+        HttpStatus.CREATED);
+
     } catch (Exception e) {
       System.out.println(e.toString());
 
-      response.setStatus(HttpStatus.BAD_REQUEST.value());
-      return mapper.createObjectNode()
-        .put("error", "Failed to read CSV file")
-        .put("status", HttpStatus.BAD_REQUEST.value())
-        .put("message", e.getMessage());
+      return new ResponseEntity<>(MapBuilder.create()
+          .put("error", "Failed to read CSV file")
+          .put("message", e.getMessage()).done(),
+        HttpStatus.BAD_REQUEST);
     }
-    return mapper.createObjectNode()
-      .put("databaseSize", database.getSize());
   }
 
   @PostMapping("/test/db")
-  public long postItem(
+  public Object postItem(
     @RequestBody Transaction transaction
   ) {
     database.save(transaction);
-    return database.getSize();
+    return getCount();
   }
 
   @PutMapping("/test/db")
-  public long putItem(
+  public Object putItem(
     @RequestBody Transaction transaction
   ) {
     database.save(transaction);
-    return database.getSize();
+    return getCount();
   }
 
   @DeleteMapping("/test/db")
-  public long deleteItem(
+  public Object deleteItem(
     @RequestParam(required = false) Long id
   ) {
     database.deleteById(id);
-    return database.getSize();
+    return getCount();
   }
 }
