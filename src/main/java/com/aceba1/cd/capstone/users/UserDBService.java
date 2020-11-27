@@ -24,8 +24,8 @@ public class UserDBService {
   private void setMongodbDb(String value) { UserDBService.MONGODB_DB = value; }
   @Value("${users.mongodb.collection}")
   private void setMongodbCollection(String value) { UserDBService.MONGODB_COLLECTION = value; }
-  @Value("${users.hashsalt}")
-  private void setHashSalt(String value) { UserDBService.HASHSALT = value; }
+  @Value("${users.saltrounds}")
+  private void setHashSalt(int value) { UserDBService.HASHSALT = BCrypt.gensalt(value); }
 
   private static ConnectionString MONGODB_URI;
   private static String MONGODB_DB;
@@ -47,9 +47,16 @@ public class UserDBService {
     return users.find(filter).first();
   }
 
-  public static void insertUser(User user, boolean securePassword) {
+  public static void insertUser(User user, boolean securePassword) throws Exception {
+    if (users.countDocuments(new Document("name", user.name)) != 0)
+      throw new Exception("Name is already in use!");
+
+    if (users.countDocuments(new Document("email", user.name)) != 0)
+      throw new Exception("Email is already in use!");
+
     if (securePassword)
       user.password = securePassword(user.password);
+
     users.insertOne(user);
   }
 
