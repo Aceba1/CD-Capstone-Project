@@ -38,11 +38,11 @@ public class Controller {
       else {
         Page<Transaction> pageTr = database.repository.findAll(PageRequest.of(page, size));
 
-        return MapBuilder.create()
+        return new MapBuilder()
           .put("data", pageTr.getContent())
           .put("currentPage", page)
           .put("totalItems", pageTr.getTotalElements())
-          .put("totalPages", pageTr.getTotalPages()).done();
+          .put("totalPages", pageTr.getTotalPages());
       }
     } catch (Exception e) {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -53,8 +53,7 @@ public class Controller {
 
   @GetMapping("/test/db/count")
   public Object getCount() {
-    return MapBuilder.create()
-      .put("databaseSize", database.getSize()).done();
+    return new MapBuilder("databaseSize", database.getSize());
   }
 
   @PostMapping("/test/db/csv")
@@ -65,17 +64,17 @@ public class Controller {
     try {
       long count = database.saveAll(CSVReader.readFromCSV(new StringReader(csv)));
 
-      return new ResponseEntity<>(MapBuilder.create()
-          .put("databaseSize", database.getSize())
-          .put("csvSize", count).done(),
+      return new ResponseEntity<>(new MapBuilder(
+          "databaseSize", database.getSize(),
+          "csvSize", count),
         HttpStatus.CREATED);
 
     } catch (Exception e) {
       System.out.println(e.toString());
 
-      return new ResponseEntity<>(MapBuilder.create()
-          .put("error", "Failed to read CSV file")
-          .put("message", e.getMessage()).done(),
+      return new ResponseEntity<>(new MapBuilder(
+          "error", "Failed to read CSV file",
+          "message", e.getMessage()),
         HttpStatus.BAD_REQUEST);
     }
   }
