@@ -4,20 +4,19 @@ import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.Iterator;
+import java.util.stream.Stream;
 
 public class CSVReader {
   //TODO: Expand to beyond Transaction class
 
-  public static Iterator<Transaction> readFromCSV(Reader csvFile) throws IOException {
+  public static Stream<Transaction> readFromCSV(Reader csvFile) throws IOException {
     BufferedReader reader = new BufferedReader(csvFile);
 
     int[] columns = Transaction.indexesOf(reader.readLine().split(","));
 
     return reader
       .lines()
-      .map(c -> CSVReader.readString(c, columns))
-      .iterator();
+      .map(c -> CSVReader.readString(c, columns));
   }
 
   public static Transaction readString(String row, int[] index) {
