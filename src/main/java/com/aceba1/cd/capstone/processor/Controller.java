@@ -18,14 +18,7 @@ public class Controller {
   @Autowired
   TransactionService database;
 
-  //TODO: Paged requests
-  // accept a property for specific pages
-  // return an object with information for
-  // - page size
-  // - total page count
-  // - total count
-  // - array of items in page
-  @GetMapping("/test/db")
+  @GetMapping("${proc.map.tr.page}")
   public Object getItem(
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "30") int size,
@@ -49,14 +42,12 @@ public class Controller {
     }
   }
 
-  //TODO: Wrap ALL responses in objects (JSON)
-
-  @GetMapping("/test/db/count")
+  @GetMapping("${proc.map.tr.count}")
   public Object getCount() {
     return new MapBuilder("databaseSize", database.getSize());
   }
 
-  @PostMapping("/test/db/csv")
+  @PostMapping("${proc.map.tr.upload}")
   public Object uploadCSV(
     @RequestBody String csv
     //@RequestBody MultipartFile csv
@@ -79,27 +70,4 @@ public class Controller {
     }
   }
 
-  @PostMapping("/test/db")
-  public Object postItem(
-    @RequestBody Transaction transaction
-  ) {
-    database.save(transaction);
-    return getCount();
-  }
-
-  @PutMapping("/test/db")
-  public Object putItem(
-    @RequestBody Transaction transaction
-  ) {
-    database.save(transaction);
-    return getCount();
-  }
-
-  @DeleteMapping("/test/db")
-  public Object deleteItem(
-    @RequestParam(required = false) Long id
-  ) {
-    database.deleteById(id);
-    return getCount();
-  }
 }

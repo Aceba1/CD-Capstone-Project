@@ -24,13 +24,13 @@ public class UserDBService {
   private void setMongodbDb(String value) { UserDBService.MONGODB_DB = value; }
   @Value("${users.mongodb.collection}")
   private void setMongodbCollection(String value) { UserDBService.MONGODB_COLLECTION = value; }
-  @Value("${users.saltrounds}")
-  private void setHashSalt(int value) { UserDBService.HASHSALT = BCrypt.gensalt(value); }
+  @Value("${users.salt}")
+  private void setHashSalt(String value) { UserDBService.SALT = value; }
 
   private static ConnectionString MONGODB_URI;
   private static String MONGODB_DB;
   private static String MONGODB_COLLECTION;
-  private static String HASHSALT;
+  private static String SALT;
 
   private static MongoClient client;
   private static MongoCollection<User> users;
@@ -40,7 +40,7 @@ public class UserDBService {
   }
 
   public static String securePassword(String password) {
-    return BCrypt.hashpw(password, HASHSALT);
+    return BCrypt.hashpw(password, SALT);
   }
 
   public static User getUser(Document filter) {
