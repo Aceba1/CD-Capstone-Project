@@ -80,7 +80,7 @@ public class UserDBService {
   }
 
   private static void storeDatabase() {
-    client = MongoClients.create(MONGODB_URI);//(generateSettings());
+    client = MongoClients.create(generateSettings());
     System.out.println("---- USERS ---- Connected to MongoDB!");
     var database = client.getDatabase(MONGODB_DB);
     System.out.println("---- USERS ---- Connected to Database!");

@@ -2,10 +2,11 @@ package com.aceba1.cd.capstone.users;
 
 import org.bson.Document;
 import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 
-public class User  {
+public final class User {
 
   public User() { }
 
@@ -24,6 +25,7 @@ public class User  {
   @BsonProperty(value = "password")
   public String password;
 
+  @BsonIgnore
   public Document getDocument(boolean includeId) {
     Document doc = new Document();
 
