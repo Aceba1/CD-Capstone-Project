@@ -8,6 +8,11 @@ import org.bson.types.ObjectId;
 
 public final class User {
 
+  public static final int MIN_USERNAME_LENGTH = 3;
+  public static final int MAX_USERNAME_LENGTH = 20;
+  public static final int MIN_PASSWORD_LENGTH = 6;
+  public static final int MAX_PASSWORD_LENGTH = 100;
+
   public User() { }
 
   public User(String name, String email, String password) {
@@ -38,5 +43,19 @@ public final class User {
 
     if (includeId) doc.append("id", id);
     return doc;
+  }
+
+  public String verify() {
+    return (name == null ? "Name is missing\n" : (
+        name.length() < MIN_USERNAME_LENGTH ? "Name is too short\n" : (
+          name.length() > MAX_USERNAME_LENGTH ? "Name is too long\n" : ""
+      ))) +
+      (password == null ? "Password is missing\n" : (
+        password.length() < MIN_PASSWORD_LENGTH ? "Password is too short\n" : (
+          password.length() > MAX_PASSWORD_LENGTH ? "Password is too long\n" : ""
+      ))) +
+      (email == null ? "Email is missing\n" : (
+        LoginForm.isEmail(email) ? "" : "Email is invalid\n"
+      ));
   }
 }

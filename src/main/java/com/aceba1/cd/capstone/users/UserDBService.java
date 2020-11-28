@@ -39,6 +39,13 @@ public class UserDBService {
     return users;
   }
 
+  public static String verifyPassword(String password) {
+    if (password.startsWith(SALT))
+      return password;
+
+    return securePassword(password);
+  }
+
   public static String securePassword(String password) {
     return BCrypt.hashpw(password, SALT);
   }
@@ -47,15 +54,14 @@ public class UserDBService {
     return users.find(filter).first();
   }
 
-  public static void insertUser(User user, boolean securePassword) throws Exception {
-    if (users.countDocuments(new Document("name", user.name)) != 0)
-      throw new Exception("Name is already in use!");
-
+  public static void insertUser(User user) throws Exception {
     if (users.countDocuments(new Document("email", user.name)) != 0)
       throw new Exception("Email is already in use!");
 
-    if (securePassword)
-      user.password = securePassword(user.password);
+    if (users.countDocuments(new Document("name", user.name)) != 0)
+            throw new Exception("Name is already in use!");
+
+    user.password = verifyPassword(user.password);
 
     users.insertOne(user);
   }

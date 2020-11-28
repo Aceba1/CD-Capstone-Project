@@ -8,7 +8,11 @@ public class LoginForm {
   public String credential;
   public String password;
 
+  public static boolean isEmail(String value) {
+    return value.matches(EMAIL_REGEX);
+  }
+
   public boolean isCredentialEmail() {
-    return credential.matches(EMAIL_REGEX);
+    return isEmail(credential);
   }
 }
