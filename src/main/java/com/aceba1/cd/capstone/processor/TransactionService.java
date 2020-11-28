@@ -36,6 +36,12 @@ public class TransactionService {
     return repository.findAll();
   }
 
+//  public long saveAll(Reader input) {
+//    CSVReader reader = new CSVReader(input);
+//    for(String[] nextLine : reader.iterator()) {
+//    }
+//  }
+
   public long saveAll(Stream<Transaction> transactions) {
     StatelessSession session = sessionFactory.openStatelessSession();
     org.hibernate.Transaction tx = session.beginTransaction();

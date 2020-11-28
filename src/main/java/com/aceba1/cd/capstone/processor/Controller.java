@@ -34,6 +34,7 @@ public class Controller {
         return new MapBuilder()
           .put("data", pageTr.getContent())
           .put("currentPage", page)
+          .put("itemsPerPage", pageTr.size)
           .put("totalItems", pageTr.getTotalElements())
           .put("totalPages", pageTr.getTotalPages());
       }
@@ -70,4 +71,27 @@ public class Controller {
     }
   }
 
+  // @PostMapping("/test/db")
+  // public Object postItem(
+  //   @RequestBody Transaction transaction
+  // ) {
+  //   database.save(transaction);
+  //   return getCount();
+  // }
+
+  // @PutMapping("/test/db")
+  // public Object putItem(
+  //   @RequestBody Transaction transaction
+  // ) {
+  //   database.save(transaction);
+  //   return getCount();
+  // }
+
+  // @DeleteMapping("/test/db")
+  // public Object deleteItem(
+  //   @RequestParam(required = false) Long id
+  // ) {
+  //   database.deleteById(id);
+  //   return getCount();
+  // }
 }
