@@ -1,5 +1,7 @@
 package com.aceba1.cd.capstone.utils;
 
+import com.sun.istack.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +42,7 @@ public class MapBuilder extends HashMap<String, Object> {
   }
 
   @Override
+  @NotNull
   public MapBuilder put(String key, Object value) {
     super.put(key, value);
     return this;

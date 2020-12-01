@@ -1,20 +1,16 @@
-package com.aceba1.cd.capstone.processor;
+package com.aceba1.cd.capstone.processor.service;
 
-import com.opencsv.CSVReader;
+import com.aceba1.cd.capstone.processor.entity.Transaction;
+import com.aceba1.cd.capstone.processor.repository.TransactionRepository;
 import org.hibernate.SessionFactory;
 import org.hibernate.StatelessSession;
-import org.hibernate.StatelessSessionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
-import java.io.Reader;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Timer;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
 @Service
@@ -24,9 +20,10 @@ public class TransactionService {
   @Autowired
   private SessionFactory sessionFactory;
 
-//  public Transaction findBy() {
-//
-//  }
+
+  public Page<Transaction> getPage(Pageable page) {
+    return repository.findAll(page);
+  }
 
   public Transaction findById(Long id) {
     return repository.findById(id).orElse(null);
@@ -51,6 +48,10 @@ public class TransactionService {
     StopWatch stopWatch = new StopWatch();
     stopWatch.start();
 
+    var iter = transactions.iterator();
+    while (iter.hasNext()) {
+      iter.next();
+    }
     transactions.forEach(session::insert);
 
     tx.commit();

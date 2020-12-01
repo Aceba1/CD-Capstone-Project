@@ -18,12 +18,10 @@ function missingRoute(action) {
 async function processApiSwitch(req, res) {
   const {action, body} = req.body;
   const route = routes[action];
-  if (route) {
+  if (route)
     await route(body, res);
-  } else {
+  else
     res.status(404).json(missingRoute(action));
-
-  }
 }
 
 router.post('/', processApiSwitch);

@@ -43,7 +43,6 @@ public class Controller {
         String credential = form.isCredentialEmail() ? "email" : "name";
 
         Document filter = new Document(credential, form.credential);
-
         filter.append("password", UserDBService.verifyPassword(form.password));
 
         System.out.println(filter.toString());
@@ -67,7 +66,7 @@ public class Controller {
 
   @PostMapping("${users.map.register}")
   public Object register(
-    @RequestBody User form,
+    @RequestBody User form, //TODO: Stripped USER type (No ADMIN)
     HttpServletResponse response
   ) {
     if (UserDBService.isReady()) {

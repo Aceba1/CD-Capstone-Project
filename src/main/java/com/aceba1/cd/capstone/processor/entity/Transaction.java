@@ -1,6 +1,4 @@
-package com.aceba1.cd.capstone.processor;
-
-import org.springframework.jdbc.core.JdbcTemplate;
+package com.aceba1.cd.capstone.processor.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -80,11 +78,12 @@ public class Transaction implements Serializable {
 
   }
 
-  public Transaction(
+  public Transaction set(
     int step, String type, double amount,
     String nameOrig, double oldbalanceOrig, double newbalanceOrig,
     String nameDest, double oldbalanceDest, double newbalanceDest,
-    int isFraud, int isFlaggedFraud) {
+    int isFraud, int isFlaggedFraud
+  ) {
     this.step = step;
     this.type = type;
     this.amount = amount;
@@ -96,6 +95,7 @@ public class Transaction implements Serializable {
     this.newbalanceDest = newbalanceDest;
     this.isFraud = isFraud;
     this.isFlaggedFraud = isFlaggedFraud;
+    return this;
   }
 
   @Override

@@ -1,7 +1,7 @@
 package com.aceba1.cd.capstone.processor;
 
-import org.springframework.context.annotation.EnableMBeanExport;
-import org.springframework.web.multipart.MultipartFile;
+import com.aceba1.cd.capstone.processor.entity.Transaction;
+import org.hibernate.StatelessSession;
 
 import java.io.*;
 import java.util.stream.Stream;
@@ -14,14 +14,29 @@ public class CSVReader {
 
     int[] columns = Transaction.indexesOf(reader.readLine().split(","));
 
+    Transaction placeholder = new Transaction();
+
     return reader
       .lines()
-      .map(c -> CSVReader.readString(c, columns));
+      .map(c -> CSVReader.readString(placeholder, c, columns));
   }
 
-  public static Transaction readString(String row, int[] index) {
+  public static void readToSession(StatelessSession session, Reader csvFile) throws IOException {
+    BufferedReader reader = new BufferedReader(csvFile);
+
+    int[] columns = Transaction.indexesOf(reader.readLine().split(","));
+    var tx = session.beginTransaction();
+    String in;
+    Transaction placeholder = new Transaction();
+
+    while ((in = reader.readLine()) != null && in.length() != 0)
+      session.insert(readString(placeholder, in, columns));
+    tx.commit();
+  }
+
+  public static Transaction readString(Transaction object, String row, int[] index) {
     String[] items = row.split(",");
-    return new Transaction(
+    return object.set(
       Integer.parseInt(items[index[0]]),
       items[index[1]],
       Double.parseDouble(items[index[2]]),

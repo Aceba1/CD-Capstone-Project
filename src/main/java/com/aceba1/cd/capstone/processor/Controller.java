@@ -1,8 +1,9 @@
 package com.aceba1.cd.capstone.processor;
 
+import com.aceba1.cd.capstone.processor.entity.Transaction;
+import com.aceba1.cd.capstone.processor.service.TransactionService;
 import com.aceba1.cd.capstone.utils.MapBuilder;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,12 +30,12 @@ public class Controller {
       if (id != null)
         return database.findById(id);
       else {
-        Page<Transaction> pageTr = database.repository.findAll(PageRequest.of(page, size));
+        Page<Transaction> pageTr = database.getPage(PageRequest.of(page, size));
 
         return new MapBuilder()
           .put("data", pageTr.getContent())
           .put("currentPage", page)
-          .put("itemsPerPage", pageTr.size)
+          .put("itemsPerPage", pageTr.getSize())
           .put("totalItems", pageTr.getTotalElements())
           .put("totalPages", pageTr.getTotalPages());
       }
