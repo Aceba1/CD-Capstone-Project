@@ -1,6 +1,6 @@
 package com.aceba1.cd.capstone.processor;
 
-import com.aceba1.cd.capstone.processor.entity.Transaction;
+import com.aceba1.cd.capstone.processor.model.Transaction;
 import org.hibernate.StatelessSession;
 
 import java.io.*;

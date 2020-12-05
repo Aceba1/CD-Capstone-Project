@@ -1,4 +1,4 @@
-package com.aceba1.cd.capstone.processor.entity;
+package com.aceba1.cd.capstone.processor.model;
 
 import javax.persistence.*;
 import java.io.Serializable;

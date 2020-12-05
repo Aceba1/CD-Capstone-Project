@@ -1,6 +1,7 @@
-package com.aceba1.cd.capstone.processor;
+package com.aceba1.cd.capstone.processor.controller;
 
-import com.aceba1.cd.capstone.processor.entity.Transaction;
+import com.aceba1.cd.capstone.processor.CSVReader;
+import com.aceba1.cd.capstone.processor.model.Transaction;
 import com.aceba1.cd.capstone.processor.service.TransactionService;
 import com.aceba1.cd.capstone.utils.MapBuilder;
 
@@ -63,7 +64,7 @@ public class Controller {
         HttpStatus.CREATED);
 
     } catch (Exception e) {
-      System.out.println(e.toString());
+      e.printStackTrace();
 
       return new ResponseEntity<>(new MapBuilder(
           "error", "Failed to read CSV file",

@@ -1,6 +1,6 @@
 package com.aceba1.cd.capstone.processor.service;
 
-import com.aceba1.cd.capstone.processor.entity.Transaction;
+import com.aceba1.cd.capstone.processor.model.Transaction;
 import com.aceba1.cd.capstone.processor.repository.TransactionRepository;
 import org.hibernate.SessionFactory;
 import org.hibernate.StatelessSession;
@@ -48,10 +48,10 @@ public class TransactionService {
     StopWatch stopWatch = new StopWatch();
     stopWatch.start();
 
-    var iter = transactions.iterator();
-    while (iter.hasNext()) {
-      iter.next();
-    }
+//    var iter = transactions.iterator();
+//    while (iter.hasNext()) {
+//      iter.next();
+//    }
     transactions.forEach(session::insert);
 
     tx.commit();
