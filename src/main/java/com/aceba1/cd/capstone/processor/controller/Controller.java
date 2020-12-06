@@ -21,27 +21,21 @@ public class Controller {
   TransactionService database;
 
   @GetMapping("${proc.map.tr.page}")
-  public Object getItem(
+  public Object getPage(
     @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "30") int size,
-    @RequestParam(required = false) Long id
+    @RequestParam(defaultValue = "30") int size
   ) {
     try {
+      Page<Transaction> pageTr = database.getPage(PageRequest.of(page, size));
 
-      if (id != null)
-        return database.findById(id);
-      else {
-        Page<Transaction> pageTr = database.getPage(PageRequest.of(page, size));
-
-        return new MapBuilder()
-          .put("data", pageTr.getContent())
-          .put("currentPage", page)
-          .put("itemsPerPage", pageTr.getSize())
-          .put("totalItems", pageTr.getTotalElements())
-          .put("totalPages", pageTr.getTotalPages());
-      }
+      return new MapBuilder()
+        .put("data", pageTr.getContent())
+        .put("currentPage", page)
+        .put("itemsPerPage", pageTr.getSize())
+        .put("totalItems", pageTr.getTotalElements())
+        .put("totalPages", pageTr.getTotalPages());
     } catch (Exception e) {
-      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
   }
 
@@ -50,7 +44,7 @@ public class Controller {
     return new MapBuilder("databaseSize", database.getSize());
   }
 
-  @PostMapping("${proc.map.tr.upload}")
+  @PostMapping("${proc.map.tr.upload.csv}")
   public Object uploadCSV(
     @RequestBody String csv
     //@RequestBody MultipartFile csv
@@ -59,41 +53,53 @@ public class Controller {
       long count = database.saveAll(CSVReader.readFromCSV(new StringReader(csv)));
 
       return new ResponseEntity<>(new MapBuilder(
-          "databaseSize", database.getSize(),
-          "csvSize", count),
+        "databaseSize", database.getSize(),
+        "csvSize", count),
         HttpStatus.CREATED);
 
     } catch (Exception e) {
       e.printStackTrace();
 
-      return new ResponseEntity<>(new MapBuilder(
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(new MapBuilder(
           "error", "Failed to read CSV file",
-          "message", e.getMessage()),
-        HttpStatus.BAD_REQUEST);
+          "message", e.getMessage()));
     }
   }
 
-  // @PostMapping("/test/db")
-  // public Object postItem(
-  //   @RequestBody Transaction transaction
-  // ) {
-  //   database.save(transaction);
-  //   return getCount();
-  // }
+  @PostMapping("${proc.map.tr.single}")
+  public Object postItem(
+    @RequestBody Transaction transaction
+  ) {
+    database.save(transaction);
+    return getCount();
+  }
 
-  // @PutMapping("/test/db")
-  // public Object putItem(
-  //   @RequestBody Transaction transaction
-  // ) {
-  //   database.save(transaction);
-  //   return getCount();
-  // }
+  @PutMapping("${proc.map.tr.single}")
+  public Object putItem(
+    @RequestBody Transaction transaction
+  ) {
+    database.save(transaction);
+    return getCount();
+  }
 
-  // @DeleteMapping("/test/db")
-  // public Object deleteItem(
-  //   @RequestParam(required = false) Long id
-  // ) {
-  //   database.deleteById(id);
-  //   return getCount();
-  // }
+  @DeleteMapping("${proc.map.tr.single}")
+  public Object deleteItem(
+    @RequestParam Long id
+  ) {
+    if (database.deleteById(id))
+      return getCount();
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+      .body(getCount());
+  }
+
+  @GetMapping("${proc.map.tr.single}")
+  public Object getItem(
+    @RequestParam Long id
+  ) {
+    Transaction transaction = database.findById(id);
+    if (transaction != null)
+      return transaction;
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  }
 }

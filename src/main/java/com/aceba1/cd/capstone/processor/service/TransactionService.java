@@ -77,8 +77,10 @@ public class TransactionService {
     repository.delete(transaction);
   }
 
-  public void deleteById(Long id) {
+  public boolean deleteById(Long id) {
+    if (repository.findById(id).isEmpty()) return false;
     repository.deleteById(id);
+    return true;
   }
 
   public long getSize() {

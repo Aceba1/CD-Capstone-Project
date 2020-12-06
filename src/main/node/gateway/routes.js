@@ -9,14 +9,18 @@ const
   
   procTransactionPage = process.env['proc.map.tr.page'],
   procTransactionCount = process.env['proc.map.tr.count'],
-  procTransactionUploadCSV = process.env['proc.map.tr.upload'];
 
-async function request(url, data, method, response) {
+  procTransactionUploadCSV = process.env['proc.map.tr.upload.csv'],
+  procTransactionSingle = process.env['proc.map.tr.single'];
+
+async function request(url, data, method, response, params = undefined, headers = undefined) {
   try {
     const result = await axios.request({
       url: url,
       method: method,
-      data: data
+      data: data,
+      params: params,
+      headers: headers
     });
     response.status(result.status).json(result.data)
   } catch (e) {
@@ -53,7 +57,7 @@ module.exports = {
 
   procTransactionPage: async (body, res) => {
     await request(procAddr + procTransactionPage,
-      body, 'GET', res);
+      body, 'GET', res, body);
   },
 
   procTransactionCount: async (body, res) => {
@@ -61,8 +65,23 @@ module.exports = {
       body, 'GET', res);
   },
 
-  procTransactionUpload: async (body, res) => {
-    await request(procAddr + procTransactionUpload,
+  procTransactionUploadCSV: async (body, res) => {
+    await request(procAddr + procTransactionUploadCSV,
       body, 'POST', res);
+  },
+
+  procTransactionGetSingle: async (body, res) => {
+    await request(procAddr + procTransactionSingle,
+      body, 'GET', res);
+  },
+
+  procTransactionPutSingle: async (body, res) => {
+    await request(procAddr + procTransactionSingle,
+      body, 'PUT', res);
+  },
+
+  procTransactionDeleteSingle: async (body, res) => {
+    await request(procAddr + procTransactionSingle,
+      body, 'DELETE', res);
   }
 }
