@@ -7,7 +7,11 @@ function missingRoute(action) {
   return {
     error: 'Bad Gateway Route',
     status: 400,
-    message: "Route '" + action + "' is unavailable"
+    message: "Route '" + action + "' is unavailable",
+    //TODO: REMOVE / APPEND TO ENV VARIABLE
+    __dev_tools__: {
+      actions: Object.keys(routes)
+    }
   };
 }
 
