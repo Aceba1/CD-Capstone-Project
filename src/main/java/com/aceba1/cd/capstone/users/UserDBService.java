@@ -55,7 +55,7 @@ public class UserDBService {
   }
 
   public static void insertUser(User user) throws Exception {
-    if (users.countDocuments(new Document("email", user.name)) != 0)
+    if (users.countDocuments(new Document("email", user.email)) != 0)
       throw new Exception("Email is already in use!");
 
     if (users.countDocuments(new Document("name", user.name)) != 0)
