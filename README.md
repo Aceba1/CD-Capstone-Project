@@ -1,5 +1,6 @@
 # Big-Data Processor Microservices Framework
 - Gateway (NodeJS)
+- React Frontend (JavaScript)
 - MongoDB User Authentication (Java)
 - PostgreSQL Processor (Java)
 - ML AI Processor (Python)
