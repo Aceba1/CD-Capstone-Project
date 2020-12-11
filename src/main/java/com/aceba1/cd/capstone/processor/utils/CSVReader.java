@@ -1,4 +1,4 @@
-package com.aceba1.cd.capstone.processor;
+package com.aceba1.cd.capstone.processor.utils;
 
 import com.aceba1.cd.capstone.processor.model.Transaction;
 import org.hibernate.StatelessSession;
@@ -31,6 +31,7 @@ public class CSVReader {
 
     while ((in = reader.readLine()) != null && in.length() != 0)
       session.insert(readString(placeholder, in, columns));
+
     tx.commit();
   }
 

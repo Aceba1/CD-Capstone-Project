@@ -1,4 +1,4 @@
-package com.aceba1.cd.capstone.users;
+package com.aceba1.cd.capstone.users.model;
 
 import org.bson.Document;
 import org.bson.codecs.pojo.annotations.BsonId;

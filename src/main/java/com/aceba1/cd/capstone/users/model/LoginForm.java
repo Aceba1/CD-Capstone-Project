@@ -1,4 +1,4 @@
-package com.aceba1.cd.capstone.users;
+package com.aceba1.cd.capstone.users.model;
 
 import java.util.regex.Pattern;
 

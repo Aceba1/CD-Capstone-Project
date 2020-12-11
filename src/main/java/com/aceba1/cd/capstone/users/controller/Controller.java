@@ -1,5 +1,8 @@
-package com.aceba1.cd.capstone.users;
+package com.aceba1.cd.capstone.users.controller;
 
+import com.aceba1.cd.capstone.users.model.LoginForm;
+import com.aceba1.cd.capstone.users.model.User;
+import com.aceba1.cd.capstone.users.service.UserDBService;
 import com.aceba1.cd.capstone.utils.MapBuilder;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -10,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -43,12 +45,11 @@ public class Controller {
         String credential = form.isCredentialEmail() ? "email" : "name";
 
         Document filter = new Document(credential, form.credential);
-        filter.append("password", UserDBService.verifyPassword(form.password));
-
-        System.out.println(filter.toString());
+        //filter.append("password", UserDBService.verifyPassword(form.password));
 
         User user = UserDBService.getUser(filter);
-        if (user == null)
+
+        if (user == null || !UserDBService.testPassword(form.password, user.password))
           return ResponseEntity.status(HttpStatus.NOT_FOUND)
             .body(new MapBuilder("message", "User not found"));
 

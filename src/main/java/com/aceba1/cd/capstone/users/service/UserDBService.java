@@ -1,6 +1,7 @@
-package com.aceba1.cd.capstone.users;
+package com.aceba1.cd.capstone.users.service;
 
-import com.aceba1.cd.capstone.utils.BCrypt;
+import com.aceba1.cd.capstone.users.model.User;
+import com.aceba1.cd.capstone.users.utils.BCrypt;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -24,13 +25,13 @@ public class UserDBService {
   private void setMongodbDb(String value) { UserDBService.MONGODB_DB = value; }
   @Value("${users.mongodb.collection}")
   private void setMongodbCollection(String value) { UserDBService.MONGODB_COLLECTION = value; }
-  @Value("${users.salt}")
-  private void setHashSalt(String value) { UserDBService.SALT = value; }
+  @Value("${users.saltrounds}")
+  private void setHashSaltRounds(int value) { UserDBService.SALTROUNDS = value; }
 
   private static ConnectionString MONGODB_URI;
   private static String MONGODB_DB;
   private static String MONGODB_COLLECTION;
-  private static String SALT;
+  private static int SALTROUNDS;
 
   private static MongoClient client;
   private static MongoCollection<User> users;
@@ -39,15 +40,12 @@ public class UserDBService {
     return users;
   }
 
-  public static String verifyPassword(String password) {
-    if (password.startsWith(SALT))
-      return password;
-
-    return securePassword(password);
+  public static boolean testPassword(String password, String hashedPassword) {
+    return BCrypt.checkpw(password, hashedPassword);
   }
 
   public static String securePassword(String password) {
-    return BCrypt.hashpw(password, SALT);
+    return BCrypt.hashpw(password, BCrypt.gensalt(SALTROUNDS));
   }
 
   public static User getUser(Document filter) {
@@ -61,7 +59,7 @@ public class UserDBService {
     if (users.countDocuments(new Document("name", user.name)) != 0)
             throw new Exception("Name is already in use!");
 
-    user.password = verifyPassword(user.password);
+    user.password = securePassword(user.password);
 
     users.insertOne(user);
   }

@@ -1,4 +1,4 @@
-package com.aceba1.cd.capstone.utils;
+package com.aceba1.cd.capstone.users.utils;
 
 // Copyright (c) 2006 Damien Miller <djm@mindrot.org>
 //
