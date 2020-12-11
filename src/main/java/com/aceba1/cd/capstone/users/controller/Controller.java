@@ -3,6 +3,7 @@ package com.aceba1.cd.capstone.users.controller;
 import com.aceba1.cd.capstone.users.model.LoginForm;
 import com.aceba1.cd.capstone.users.model.User;
 import com.aceba1.cd.capstone.users.service.UserDBService;
+import com.aceba1.cd.capstone.users.utils.JWTUtil;
 import com.aceba1.cd.capstone.utils.MapBuilder;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -18,21 +19,17 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class Controller {
 
+  //TODO: Relocate?
   @Value("${users.jwt.secret}")
-  String JWT_SECRET;
+  private void setSecret(String value) {
+    JWTUtil.setAlgorithm(value);
+  }
+
+  @Value("${users.jwt.hours}")
+  private long JWT_HOURS;
 
   @Autowired
   ObjectMapper mapper;
-
-  private String createJWT(User user) {
-    return JWT.create()
-      //.withExpiresAt(new Date()) //TODO: Figure out Date class? Determine if expiry is necessary
-      .withClaim("name", user.name)
-      .withClaim("password", user.password)
-      .withClaim("email", user.email)
-      .withClaim("id", user.id.toString())
-      .sign(Algorithm.HMAC256(JWT_SECRET));
-  }
 
   @PutMapping("${users.map.login}")
   public Object login(
@@ -53,7 +50,7 @@ public class Controller {
           return ResponseEntity.status(HttpStatus.NOT_FOUND)
             .body(new MapBuilder("message", "User not found"));
 
-        return new MapBuilder("jwt", createJWT(user));
+        return new MapBuilder("jwt", JWTUtil.genJWT(user, JWT_HOURS));
 
       } catch (Exception e) {
         e.printStackTrace();
@@ -81,7 +78,7 @@ public class Controller {
         }
 
         UserDBService.insertUser(form);
-        return new MapBuilder("jwt", createJWT(form));
+        return new MapBuilder("jwt", JWTUtil.genJWT(form, JWT_HOURS));
 
       } catch (Exception e) {
         e.printStackTrace();
@@ -93,5 +90,11 @@ public class Controller {
     return "Unavailable";
   }
 
-
+  @GetMapping("${users.map.verify}")
+  public Object verify(
+    @RequestBody String jwt
+  ) {
+    //TODO: Password should not be exposed by REST API!
+    return JWTUtil.parseJWT(jwt);
+  }
 }
