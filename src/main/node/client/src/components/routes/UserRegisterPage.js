@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function RegisterPage(props) {
+function UserRegisterPage(props) {
   return (
     <div>
       
@@ -9,9 +9,9 @@ function RegisterPage(props) {
   )
 }
 
-RegisterPage.propTypes = {
+UserRegisterPage.propTypes = {
 
 }
 
-export default RegisterPage
+export default UserRegisterPage
 
