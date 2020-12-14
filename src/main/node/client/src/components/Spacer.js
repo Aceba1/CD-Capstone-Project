@@ -1,3 +1,3 @@
-export default function Stretcher() {
+export default function Spacer() {
   return ( <div style={{flexGrow: 1}} /> )
 }
