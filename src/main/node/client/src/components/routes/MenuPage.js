@@ -1,16 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import BasicPage from './BasicPage'
 
-function MenuPage(props) {
+function MenuPage() {
   return (
-    <div>
-      
-    </div>
+    <BasicPage>
+      <h1>Menu</h1>
+    </BasicPage>
   )
-}
-
-MenuPage.propTypes = {
-
 }
 
 export default MenuPage

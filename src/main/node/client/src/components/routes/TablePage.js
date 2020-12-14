@@ -1,16 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import BasicPage from './BasicPage'
 
 function TablePage(props) {
   return (
-    <div>
-      
-    </div>
+    <BasicPage>
+      <h1>Specific Table</h1>
+    </BasicPage>
   )
-}
-
-TablePage.propTypes = {
-
 }
 
 export default TablePage

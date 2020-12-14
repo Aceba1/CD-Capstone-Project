@@ -1,13 +1,12 @@
 import React from 'react'
 import BasicPage from './BasicPage'
 
-function TableListPage(props) {
+export default function MissingPage() {
   return (
     <BasicPage>
-      <h1>Tables</h1>
+      <div>
+        <h1>Page not found</h1>
+      </div>
     </BasicPage>
   )
 }
-
-export default TableListPage
-

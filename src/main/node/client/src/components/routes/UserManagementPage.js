@@ -1,16 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import BasicPage from './BasicPage'
 
 function UserManagementPage(props) {
   return (
-    <div>
-      
-    </div>
+    <BasicPage>
+      <h1>Manage User</h1>
+    </BasicPage>
   )
-}
-
-UserManagementPage.propTypes = {
-
 }
 
 export default UserManagementPage

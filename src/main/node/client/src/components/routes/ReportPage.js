@@ -1,16 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import BasicPage from './BasicPage'
 
-function ReportPage(props) {
+function ReportPage() {
   return (
-    <div>
-      
-    </div>
+    <BasicPage>
+      <h1>Report</h1>
+    </BasicPage>
   )
-}
-
-ReportPage.propTypes = {
-
 }
 
 export default ReportPage

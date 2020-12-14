@@ -1,16 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import UserBasicPage from './UserBasicPage'
 
 function UserLoginPage(props) {
   return (
-    <div>
-      
-    </div>
+    <UserBasicPage>
+      <h1>Login User</h1>
+    </UserBasicPage>
   )
-}
-
-UserLoginPage.propTypes = {
-
 }
 
 export default UserLoginPage
