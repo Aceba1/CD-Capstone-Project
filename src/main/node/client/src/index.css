@@ -29,8 +29,9 @@ body {
 }
 
 .footer {
+  color: white;
   padding: 12px 0px 25px;
-  background-color: gray;
+  background-color: #666;
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -38,6 +39,12 @@ body {
 }
 .footer label {
   font-size: 1rem;
+}
+.footer a {
+  color: #adf;
+}
+.footer a:visited {
+  color: #daf;
 }
 
 .page {
@@ -65,7 +72,7 @@ body {
 }
 
 .header {
-  background-color: gray;
+  background-color: #666;
 }
 .header-title {
   cursor: pointer;
