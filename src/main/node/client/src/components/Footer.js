@@ -5,6 +5,17 @@ function FooterColumn(props) {
   return (
     <div className="footer-row" style={{display: "flex", flexDirection: "column", margin: "auto 40px"}}>
       <label>{props.name}</label>
+      {props.items ? props.items.map((v, i) => {
+        return (
+          <li>
+            <Hyperlink 
+              key={i}
+              url={v.url}
+              text={v.text}
+            />
+          </li>
+        )
+      }) : null}
       {props.children}
     </div>
   )
@@ -21,15 +32,19 @@ export default function Footer() {
         <li>Lentil</li>
         <li>Roman</li>
       </FooterColumn>
-      <FooterColumn name="Project">
-        <li><Hyperlink 
-          url="https://github.com/Aceba1/CD-Capstone-Project"
-          text="Github"/></li>
-        <li><Hyperlink 
-          url="https://github.com/Aceba1/CD-Capstone-Project/blob/main/README.md#diagram"
-          text="Flowchart"/></li>
-        <li>Something else</li>
-      </FooterColumn>
+      <FooterColumn 
+        name="Project"
+        items={[{
+          url: "https://github.com/Aceba1/CD-Capstone-Project",
+          text: "Github"
+        }, { 
+          url: "https://github.com/Aceba1/CD-Capstone-Project/blob/main/README.md#diagram",
+          text: "Flowchart"
+        }, {
+          url: "http://ommayo.tk/",
+          text: "Something else"
+        }]}
+      />
     </div>
   )
 }

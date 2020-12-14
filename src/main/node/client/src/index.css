@@ -28,25 +28,6 @@ body {
   margin: 8px;
 }
 
-.footer {
-  color: white;
-  padding: 12px 0px 25px;
-  background-color: #666;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  font-size: 0.8rem;
-}
-.footer label {
-  font-size: 1rem;
-}
-.footer a {
-  color: #adf;
-}
-.footer a:visited {
-  color: #daf;
-}
-
 .page {
   padding: 8px;
   flex-grow: 1;
@@ -79,6 +60,25 @@ body {
   padding: 8px 8px 4px;
   color: white;
   font-size: 1.5rem;
+}
+
+.footer {
+  color: white;
+  padding: 12px 0px 16px;
+  background-color: #666;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  font-size: 0.7rem;
+}
+.footer label {
+  font-size: 0.9rem;
+}
+.footer a {
+  color: #adf;
+}
+.footer a:visited {
+  color: #daf;
 }
 
 code {
