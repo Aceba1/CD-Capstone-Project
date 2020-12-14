@@ -1,4 +1,5 @@
 import React from 'react'
+import Hyperlink from './Hyperlink'
 
 function FooterColumn(props) {
   return (
@@ -21,7 +22,12 @@ export default function Footer() {
         <li>Roman</li>
       </FooterColumn>
       <FooterColumn name="Project">
-        <li>Flowchart</li>
+        <li><Hyperlink 
+          url="https://github.com/Aceba1/CD-Capstone-Project"
+          text="Github"/></li>
+        <li><Hyperlink 
+          url="https://github.com/Aceba1/CD-Capstone-Project/blob/main/README.md#diagram"
+          text="Flowchart"/></li>
         <li>Something else</li>
       </FooterColumn>
     </div>
