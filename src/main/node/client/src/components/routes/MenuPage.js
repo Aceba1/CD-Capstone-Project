@@ -3,7 +3,7 @@ import BasicPage from './BasicPage'
 
 function MenuPage() {
   return (
-    <BasicPage>
+    <BasicPage className="page-menu">
       <h1>Menu</h1>
     </BasicPage>
   )

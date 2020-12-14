@@ -1,19 +1,24 @@
 import React from 'react'
-//import PropTypes from 'prop-types'
+import Footer from '../Footer'
+import PropTypes from 'prop-types'
 import NavBar from '../NavBar'
 
 function BasicPage(props) {
   return (
-    <div>
+    <>
       <NavBar />
-      {props.children}
-    </div>
+      <div className={"page " + props.className}>
+        {props.children}
+      </div>
+      <Footer />
+    </>
   )
 }
 
-// BasicPage.propTypes = {
-//   children: PropTypes.node
-// }
+BasicPage.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string
+}
 
 export default BasicPage
 

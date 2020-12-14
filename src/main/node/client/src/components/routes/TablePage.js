@@ -3,7 +3,7 @@ import BasicPage from './BasicPage'
 
 function TablePage(props) {
   return (
-    <BasicPage>
+    <BasicPage className="page-table">
       <h1>Specific Table</h1>
     </BasicPage>
   )
