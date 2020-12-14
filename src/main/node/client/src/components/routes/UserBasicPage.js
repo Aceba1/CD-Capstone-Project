@@ -1,18 +1,17 @@
 import React from 'react'
-import BasicPage from './BasicPage'
+import NavBar from '../NavBar'
 //import PropTypes from 'prop-types'
 
 function UserBasicPage(props) {
   return (
-    <BasicPage>
-      <div className="bg"
-        style={{backgroundColor:"eee"}}
-      >
+    <>
+      <NavBar />
+      <div className="page page-user-card card-bg">
         <div className="centered card"> 
           {props.children}
         </div>
       </div>
-    </BasicPage>
+    </>
   )
 }
 
