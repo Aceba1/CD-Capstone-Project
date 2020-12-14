@@ -1,4 +1,5 @@
 import React from 'react'
+import Card from '../Card'
 import NavBar from '../NavBar'
 //import PropTypes from 'prop-types'
 
@@ -6,10 +7,10 @@ function UserBasicPage(props) {
   return (
     <>
       <NavBar />
-      <div className="page page-user-card card-bg">
-        <div className="centered card"> 
+      <div className="page page-user-card card-bg centered">
+        <Card> 
           {props.children}
-        </div>
+        </Card>
       </div>
     </>
   )

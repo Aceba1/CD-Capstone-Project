@@ -1,8 +1,16 @@
-export default function Card(props) {
+import PropTypes from 'prop-types'
+
+function Card(props) {
   return (
-    <div className="card">
+    <div className={"card " + props.className}>
       {props.children}
     </div>
   )
 }
+
+Card.propTypes = {
+  className: PropTypes.string
+}
+
+export default Card
 
