@@ -28,9 +28,6 @@ public class Controller {
   @Value("${users.jwt.hours}")
   private long JWT_HOURS;
 
-  @Autowired
-  ObjectMapper mapper;
-
   @PutMapping("${users.map.login}")
   public Object login(
     @RequestBody LoginForm form,
@@ -95,7 +92,20 @@ public class Controller {
   public Object verify(
     @RequestBody String jwt
   ) {
-    //TODO: Password should not be exposed by REST API!
-    return JWTUtil.parseJWT(jwt);
+    try {
+      User jwtUser = JWTUtil.parseJWT(jwt);
+      User foundUser = UserDBService.getUser(new Document("id", jwtUser.id));
+
+      if (foundUser == null ||
+        !UserDBService.testPassword(jwtUser.password, foundUser.password)
+      ) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+          new MapBuilder("message", "User not found"));
+      }
+      return new MapBuilder("name", foundUser.name, "email", foundUser.email, "id", foundUser.id.toHexString());
+    } catch(Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+        new MapBuilder("message", e.getMessage()));
+    }
   }
 }
