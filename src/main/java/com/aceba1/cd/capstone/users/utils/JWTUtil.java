@@ -15,7 +15,7 @@ public class JWTUtil {
   public static void setAlgorithm(String secret) {
     algorithm = Algorithm.HMAC256(secret);
   }
-  public static String genJWT(User user, long expiryHours) {
+  public static String genJWT(User user, String rawPassword, long expiryHours) {
     Instant now = Instant.now();
 
     return JWT.create()
@@ -23,7 +23,7 @@ public class JWTUtil {
       .withIssuedAt(Date.from(now))
       .withClaim("name", user.name)
       .withClaim("email", user.email)
-      .withClaim("password", user.password)
+      .withClaim("password", rawPassword)
       .withClaim("userid", user.id.toHexString())
       .withExpiresAt(Date.from(now.plus(expiryHours, ChronoUnit.HOURS)))
       .sign(algorithm);

@@ -50,7 +50,7 @@ public class Controller {
           return ResponseEntity.status(HttpStatus.NOT_FOUND)
             .body(new MapBuilder("message", "User not found"));
 
-        return new MapBuilder("jwt", JWTUtil.genJWT(user, JWT_HOURS));
+        return new MapBuilder("jwt", JWTUtil.genJWT(user, form.password, JWT_HOURS));
 
       } catch (Exception e) {
         e.printStackTrace();
@@ -76,9 +76,10 @@ public class Controller {
           return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(new MapBuilder("message", errors));
         }
-
+        String rawPassword = form.password;
         UserDBService.insertUser(form);
-        return new MapBuilder("jwt", JWTUtil.genJWT(form, JWT_HOURS));
+
+        return new MapBuilder("jwt", JWTUtil.genJWT(form, rawPassword, JWT_HOURS));
 
       } catch (Exception e) {
         e.printStackTrace();
