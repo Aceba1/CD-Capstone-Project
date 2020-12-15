@@ -6,6 +6,7 @@ const
 
   userLogin = process.env['users.map.login'],
   userRegister = process.env['users.map.register'],
+  userVerify = process.env['users.map.verify'],
   
   procTransactionPage = process.env['proc.map.tr.page'],
   procTransactionCount = process.env['proc.map.tr.count'],
@@ -53,6 +54,11 @@ module.exports = {
   userRegister: async (body, res) => {
     await request(userAddr + userRegister, 
       body, 'POST', res);
+  },
+
+  userVerify: async (body, res) => {
+    await request(userAddr + userVerify, 
+      body, 'GET', res);
   },
 
   procTransactionPage: async (body, res) => {
