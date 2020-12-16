@@ -1,4 +1,8 @@
 # Microservices Framework : Big-Data Processor
+A microservice architecture designed for processing huge amounts of information
+
+Under development!
+
 - Gateway (NodeJS)
 - React Frontend (JavaScript)
 - MongoDB User Authentication (Java)
