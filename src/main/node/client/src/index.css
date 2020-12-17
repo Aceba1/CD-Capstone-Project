@@ -38,20 +38,26 @@ body {
 
 .card {
   padding: 8px 8px;
-  box-shadow: 
-    0px 4px 8px #ccc,
-    0px 2px 4px 2px #ddd;
   border-radius: 8px;
   display: block;
   background-color: white;
   height: max-content;
   text-align: center;
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: #ccc;
 }
 
 .float {
   position: relative;
   top: 10%;
   margin: 0 10% 0;
+
+  border-style: none;
+  box-shadow: 
+  0px 4px 8px #ccc,
+  0px 2px 4px 2px #ddd;
 }
 
 .header {
