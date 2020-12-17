@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 
 export const ErrorContext = createContext();
 
-function ErrorContextProvider(props) {
+export default function ErrorContextProvider(props) {
 
   const [top, setTop] = useState([])
 
@@ -10,30 +10,29 @@ function ErrorContextProvider(props) {
    * @param {string} type 
    * @param {string} message */
   const reportTop = (type, message) => {
-    const temp = top;
-    top = null;
+    const temp = [...top];
     
     temp.push({
       type: type[0],
       message: message
     })
+
     setTop(temp);
   }
 
   /** Remove message from 'top' collection
    * @param {number} index  */
   const removeTop = (index) => {
-    const temp = top;
-    top = null;
+    const temp = [...top];
+
     temp.splice(index, 1);
+
+    setTop(temp);
   }
 
   return (
-    <ErrorContext.Provider value={{reportTop, removeTop}}>
+    <ErrorContext.Provider value={{reportTop, removeTop, top}}>
       {props.children}
     </ErrorContext.Provider>
   )
 }
-
-export default ErrorContext
-
