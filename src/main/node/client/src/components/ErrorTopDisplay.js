@@ -6,7 +6,7 @@ function ErrorTop(props) {
   const {type, message} = props.error;
 
   return (
-    <Card className={"error-top error-type-" + type}>
+    <Card className={"error-top error-type-" + type} onClick={props.onClick}>
       {message}
     </Card>
   )
@@ -20,7 +20,7 @@ export default function ErrorTopDisplay() {
       {
         top.map((item, index) => {
           return (
-            <ErrorTop error={item} key={index} />
+            <ErrorTop error={item} key={index} onClick={() => removeTop(index)} />
           )
         })
       }
