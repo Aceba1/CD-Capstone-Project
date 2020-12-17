@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import ErrorContext from "../contexts/ErrorContext";
+import { ErrorContext } from "../contexts/ErrorContext";
 import gateway from "../utils/gateway";
 import { get, set } from "../utils/storage";
 
@@ -10,7 +10,7 @@ const initEmail = get("cache_userEmail", null);
 export default function useUserState() {
   const { reportTop } = useContext(ErrorContext);
 
-  const [loggedIn, setLoggedIn] = useState(() => initJwt && initJwt.length != 0);
+  const [loggedIn, setLoggedIn] = useState(() => initJwt && initJwt.length !== 0);
   const [verified, setVerified] = useState(false);
   const [jwt, setJwt] = useState(initJwt);
   const [name, setName] = useState(initName);
