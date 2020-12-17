@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import config from './gatewayConfig.json'
+import config from '../json/gatewayConfig.json'
 /**
  * 
  * @param {string} action 
