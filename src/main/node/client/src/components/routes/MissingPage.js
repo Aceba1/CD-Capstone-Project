@@ -5,7 +5,7 @@ import BasicPage from './BasicPage'
 export default function MissingPage() {
   return (
     <BasicPage className="page-404">
-      <Card>
+      <Card className="float">
         <h1>404 - Page not found</h1>
       </Card>
     </BasicPage>

@@ -8,7 +8,7 @@ function UserBasicPage(props) {
     <>
       <NavBar />
       <div className="page page-user-card card-bg centered">
-        <Card> 
+        <Card className="float"> 
           {props.children}
         </Card>
       </div>
