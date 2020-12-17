@@ -1,12 +1,16 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext } from 'react'
+import useUserState from '../hooks/useUserState'
 
 export const UserContext = createContext()
 
+
+
 export default function UserContextProvider(props) {
-  const [state, setstate] = useState(initialState)
+  const userState = useUserState();
+
   return (
-    
-    <UserContext.Provider value={[state, setstate]}>
+
+    <UserContext.Provider value={userState}>
       {props.children}
     </UserContext.Provider>
   )
