@@ -7,9 +7,8 @@ function FooterColumn(props) {
       <label>{props.name}</label>
       {props.items ? props.items.map((v, i) => {
         return (
-          <li>
+          <li key={i}>
             <Hyperlink 
-              key={i}
               url={v.url}
               text={v.text}
             />
