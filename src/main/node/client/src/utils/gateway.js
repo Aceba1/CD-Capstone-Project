@@ -5,7 +5,7 @@ import config from '../json/gatewayConfig.json'
  * @param {string} action 
  * @param {{} | string} body 
  * @param {(status: number, body: {}) => void} onSuccess 
- * @param {(reason: any) => void} onError 
+ * @param {(status: number, data: {message: string}) => void} onError 
  */
 export default function gateway(action, body, onSuccess, onError) {
   Axios.request({
@@ -16,5 +16,5 @@ export default function gateway(action, body, onSuccess, onError) {
       body
     }
   }).then(r => onSuccess(r.status, r.data))
-  .catch(onError)
+  .catch(e => onError(e.response.status, e.response.data))
 }

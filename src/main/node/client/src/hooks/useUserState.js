@@ -21,22 +21,34 @@ export default function useUserState() {
   useEffect(() => set("cache_userName", name), [name]);
   useEffect(() => set("cache_userEmail", email), [email]);
 
-  const connect = (response) => {
-    if (response) {
-      setName(response.name);
-      setEmail(response.email);
-      setJwt(response.jwt);
+  const connect = (body) => {
+    if (body) {
+      setName(body.name);
+      setEmail(body.email);
+      setJwt(body.jwt);
+      setId(body.userId);
+    } else {
+      console.log("Body is missing!")
+    }
+    if (loggedIn) {
+      reportTop("info", "Verification success");
+    } else {
+      reportTop("info", "Login success");
     }
     setLoggedIn(true);
     setVerified(true);
-    reportTop("info", "TEMP: Connection success!");
   }
 
   const disconnect = () => {
+    if (loggedIn) {
+      reportTop("warn", "You have been disconnected");
+    }
     setJwt(null);
     setName(null);
     setEmail(null);
-    reportTop("warn", "You have been disconnected");
+    setId(null);
+    setLoggedIn(false);
+    setVerified(false);
   }
 
   const checkVerify = (status, response) => {
@@ -50,14 +62,17 @@ export default function useUserState() {
   }
 
   const verifyJwt = () => {
-    gateway("userVerify", { jwt }, checkVerify, error => {
-      console.log(error);
-      reportTop("err", error.response.data.message);
+    gateway("userVerify", { jwt }, checkVerify, (_status, data) => {
+      console.log(data);
+      reportTop("err", data.message);
+      disconnect();
     })
   }
 
   return { 
     jwt, setJwt, verifyJwt,
-    name, email, id
+    name, email, id,
+    connect, disconnect,
+    loggedIn, verified
   }
 }
