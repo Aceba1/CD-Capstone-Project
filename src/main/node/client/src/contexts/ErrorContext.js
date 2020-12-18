@@ -15,7 +15,7 @@ export default function ErrorContextProvider(props) {
     temp.push({
       type: type[0],
       message: message
-    })
+    });
 
     setTop(temp);
   }

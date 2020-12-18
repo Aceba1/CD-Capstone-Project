@@ -49,10 +49,11 @@ body {
   border-color: #ccc;
 }
 
-.float {
+.card.float {
   position: relative;
   top: 10%;
-  margin: 0 10% 0;
+  margin: auto;
+  width: 80%;
 
   border-style: none;
   box-shadow: 

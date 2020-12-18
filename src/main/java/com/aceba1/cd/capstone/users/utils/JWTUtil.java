@@ -29,6 +29,7 @@ public class JWTUtil {
       .sign(algorithm);
   }
 
+  //TODO: Should return specific abstracting error messages
   public static User parseJWT(String jwt) {
     var decodedJWT = JWT.require(algorithm)
       .acceptExpiresAt(5)
