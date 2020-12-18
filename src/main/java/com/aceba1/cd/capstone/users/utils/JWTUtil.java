@@ -30,7 +30,10 @@ public class JWTUtil {
   }
 
   public static User parseJWT(String jwt) {
-    var decodedJWT = JWT.require(algorithm).build().verify(jwt);
+    var decodedJWT = JWT.require(algorithm)
+      .acceptExpiresAt(5)
+      .build().verify(jwt);
+
     var user = new User(
       decodedJWT.getClaim("name").asString(),
       decodedJWT.getClaim("email").asString(),
