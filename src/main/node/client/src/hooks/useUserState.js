@@ -52,7 +52,7 @@ export default function useUserState() {
   const verifyJwt = () => {
     gateway("userVerify", { jwt }, checkVerify, error => {
       console.log(error);
-      reportTop("err", error.message);
+      reportTop("err", error.response.data.message);
     })
   }
 
