@@ -94,8 +94,8 @@ public class Controller {
   ) {
     try {
       User jwtUser = JWTUtil.parseJWT(jwt);
-      User foundUser = UserDBService.getUser(new Document("id", jwtUser.id));
 
+      User foundUser = UserDBService.getUser(new Document("_id", jwtUser._id));
       if (
         foundUser == null ||
         !UserDBService.testPassword(jwtUser.password, foundUser.password)
@@ -106,7 +106,7 @@ public class Controller {
       return new MapBuilder()
         .put("name", foundUser.name)
         .put("email", foundUser.email)
-        .put("id", foundUser.id.toHexString())
+        .put("id", foundUser._id.toHexString())
         .put("jwt", JWTUtil.genJWT(foundUser, jwtUser.password, JWT_HOURS)); // Renew time
     } catch(Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(

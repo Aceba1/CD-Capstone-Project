@@ -24,7 +24,7 @@ public class JWTUtil {
       .withClaim("name", user.name)
       .withClaim("email", user.email)
       .withClaim("password", rawPassword)
-      .withClaim("userid", user.id.toHexString())
+      .withClaim("userid", user._id.toHexString())
       .withExpiresAt(Date.from(now.plus(expiryHours, ChronoUnit.HOURS)))
       .sign(algorithm);
   }
@@ -35,7 +35,7 @@ public class JWTUtil {
       decodedJWT.getClaim("name").asString(),
       decodedJWT.getClaim("email").asString(),
       decodedJWT.getClaim("password").asString());
-    user.id = new ObjectId(decodedJWT.getClaim("userid").asString());
+    user._id = new ObjectId(decodedJWT.getClaim("userid").asString());
     return user;
   }
 }

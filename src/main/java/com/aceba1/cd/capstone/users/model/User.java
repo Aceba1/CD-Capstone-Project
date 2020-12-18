@@ -22,7 +22,7 @@ public final class User {
   }
 
   @BsonId
-  public ObjectId id;
+  public ObjectId _id;
   @BsonProperty(value = "name")
   public String name;
   @BsonProperty(value = "email")
@@ -41,7 +41,7 @@ public final class User {
     if (password != null)
       doc.append("password", password);
 
-    if (includeId) doc.append("id", id);
+    if (includeId) doc.append("id", _id);
     return doc;
   }
 
@@ -57,5 +57,15 @@ public final class User {
       (email == null ? "Email is missing\n" : (
         LoginForm.isEmail(email) ? "" : "Email is invalid\n"
       ));
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+      "_id=" + _id +
+      ", name='" + name + '\'' +
+      ", email='" + email + '\'' +
+      ", password='" + password + '\'' +
+      '}';
   }
 }
