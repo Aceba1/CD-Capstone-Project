@@ -5,11 +5,8 @@ import com.aceba1.cd.capstone.users.model.User;
 import com.aceba1.cd.capstone.users.service.UserDBService;
 import com.aceba1.cd.capstone.users.utils.JWTUtil;
 import com.aceba1.cd.capstone.utils.MapBuilder;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,11 +87,15 @@ public class Controller {
 
   @GetMapping("${users.map.verify}")
   public Object verify(
-    @RequestBody String jwt
+    @RequestBody ObjectNode body
   ) {
     try {
-      User jwtUser = JWTUtil.parseJWT(jwt);
+//      if (!body.has("jwt"))
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+//          new MapBuilder("message", "Missing field JWT"));
+      String jwt = body.get("jwt").asText();
 
+      User jwtUser = JWTUtil.parseJWT(jwt);
       User foundUser = UserDBService.getUser(new Document("_id", jwtUser._id));
       if (
         foundUser == null ||
