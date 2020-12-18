@@ -25,6 +25,14 @@ public class Controller {
   @Value("${users.jwt.hours}")
   private long JWT_HOURS;
 
+  private MapBuilder sendUserInfo(User user, String password) {
+    return new MapBuilder()
+      .put("name", user.name)
+      .put("email", user.email)
+      .put("id", user._id.toHexString())
+      .put("jwt", JWTUtil.genJWT(user, password, JWT_HOURS)); // Renew time
+  }
+
   @PutMapping("${users.map.login}")
   public Object login(
     @RequestBody LoginForm form,
@@ -44,7 +52,7 @@ public class Controller {
           return ResponseEntity.status(HttpStatus.NOT_FOUND)
             .body(new MapBuilder("message", "User not found"));
 
-        return new MapBuilder("jwt", JWTUtil.genJWT(user, form.password, JWT_HOURS));
+        return sendUserInfo(user, form.password);
 
       } catch (Exception e) {
         e.printStackTrace();
@@ -70,10 +78,11 @@ public class Controller {
           return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(new MapBuilder("message", errors));
         }
+
         String rawPassword = form.password;
         UserDBService.insertUser(form);
 
-        return new MapBuilder("jwt", JWTUtil.genJWT(form, rawPassword, JWT_HOURS));
+        return sendUserInfo(form, rawPassword);
 
       } catch (Exception e) {
         e.printStackTrace();
@@ -104,11 +113,8 @@ public class Controller {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
           new MapBuilder("message", "User not found"));
       }
-      return new MapBuilder()
-        .put("name", foundUser.name)
-        .put("email", foundUser.email)
-        .put("id", foundUser._id.toHexString())
-        .put("jwt", JWTUtil.genJWT(foundUser, jwtUser.password, JWT_HOURS)); // Renew time
+      return sendUserInfo(foundUser, jwtUser.password);
+
     } catch(Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
         new MapBuilder("message", e.getMessage()));
