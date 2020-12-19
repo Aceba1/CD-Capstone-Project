@@ -1,16 +1,18 @@
 import { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
 import { ErrorContext } from "../contexts/ErrorContext";
 import { UserContext } from "../contexts/UserContext";
 import gateway from "../utils/gateway";
+import useEnsureVerifiedState from "./useEnsureVerifiedState";
 
 export default function useLoginState() {
   const { connect } = useContext(UserContext);
   const { reportTop } = useContext(ErrorContext);
-  const { redir } = useParams();
 
   const [cred, setCred] = useState("");
   const [pass, setPass] = useState("");
+  const checkingLogin = useEnsureVerifiedState(() => {
+    window.location = new URLSearchParams(window.location.search).get("redir") ?? "/";
+  });
 
   const checkSuccess = (status, body) => {
     console.log("Received")
@@ -18,7 +20,7 @@ export default function useLoginState() {
     console.log(body)
     if (status < 400) {
       connect(body);
-      window.location = redir ?? "/";
+      window.location = new URLSearchParams(window.location.search).get("redir") ?? "/";
     }
     else
       reportTop("error", "Failed to login: " + body.message);
@@ -41,6 +43,7 @@ export default function useLoginState() {
   return { 
     cred, setCred, 
     pass, setPass,
-    attemptLogin 
+    attemptLogin,
+    checkingLogin
   };
 }

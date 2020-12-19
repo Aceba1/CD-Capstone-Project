@@ -1,19 +1,28 @@
 import React, { useContext } from 'react'
 import { UserContext } from '../../contexts/UserContext'
+import useEnsureVerifiedState from '../../hooks/useEnsureVerifiedState'
 import Button from '../Button'
-import Input from '../Input'
 import BasicPage from './BasicPage'
 
 function UserManagementPage() {
-  const {jwt, setJwt, verifyJwt} = useContext(UserContext);
+  const {disconnect, verified} = useContext(UserContext);
+  useEnsureVerifiedState(() => {}, () => {
+    window.location = "/user/login?redir=/user";
+  })
 
   return (
     <BasicPage className="page-user">
       <h1>Manage User</h1>
-
-      {/* Temporary! */}
-      <Input value={jwt} setValue={setJwt} ph="JWT" />
-      <Button text="Verify JWT" onClick={verifyJwt} />
+      { !verified ? (
+        <>
+        <span style={{fontStyle: "italic"}}>Loading...</span>
+        </>
+      ) : (
+        <Button text="Logout" onClick={() => {
+          disconnect();
+          window.location = "/";
+        }} />
+      )}
 
     </BasicPage>
   )
