@@ -30,6 +30,9 @@ public final class User {
   @BsonProperty(value = "password")
   public String password;
 
+  @BsonProperty(value = "tables")
+  public String[] tables;
+
   @BsonIgnore
   public Document getDocument(boolean includeId) {
     Document doc = new Document();
@@ -45,20 +48,9 @@ public final class User {
     return doc;
   }
 
-  public String verify() {
-    return (name == null ? "Name is missing\n" : (
-        name.length() < MIN_USERNAME_LENGTH ? "Name is too short\n" : (
-          name.length() > MAX_USERNAME_LENGTH ? "Name is too long\n" : ""
-      ))) +
-      (password == null ? "Password is missing\n" : (
-        password.length() < MIN_PASSWORD_LENGTH ? "Password is too short\n" : (
-          password.length() > MAX_PASSWORD_LENGTH ? "Password is too long\n" : ""
-      ))) +
-      (email == null ? "Email is missing\n" : (
-        LoginForm.isEmail(email) ? "" : "Email is invalid\n"
-      ));
-  }
-
+  /**
+   * Should not be exposed!
+   */
   @Override
   public String toString() {
     return "User{" +

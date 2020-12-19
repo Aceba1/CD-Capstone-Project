@@ -1,6 +1,7 @@
 package com.aceba1.cd.capstone.users.controller;
 
 import com.aceba1.cd.capstone.users.model.LoginForm;
+import com.aceba1.cd.capstone.users.model.RegisterForm;
 import com.aceba1.cd.capstone.users.model.User;
 import com.aceba1.cd.capstone.users.service.UserDBService;
 import com.aceba1.cd.capstone.users.utils.JWTUtil;
@@ -66,7 +67,7 @@ public class Controller {
 
   @PostMapping("${users.map.register}")
   public Object register(
-    @RequestBody User form, //TODO: Stripped USER type (No ADMIN)
+    @RequestBody RegisterForm form,
     HttpServletResponse response
   ) {
     if (UserDBService.isReady()) {
@@ -80,9 +81,11 @@ public class Controller {
         }
 
         String rawPassword = form.password;
-        UserDBService.insertUser(form);
+        User user = form.makeUser();
 
-        return sendUserInfo(form, rawPassword);
+        UserDBService.insertUser(user);
+
+        return sendUserInfo(user, rawPassword);
 
       } catch (Exception e) {
         e.printStackTrace();
