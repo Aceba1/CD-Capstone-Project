@@ -1,7 +1,7 @@
 {
   "configurations": [
     {
-      "command": "node index.js",
+      "command": "nodemon index.js",
       "name": "Run Gateway",
       "request": "launch",
       "type": "node-terminal"
