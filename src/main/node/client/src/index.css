@@ -37,7 +37,7 @@ body {
 }
 
 .card {
-  padding: 8px 8px;
+  padding: 8px 16px;
   border-radius: 8px;
   display: block;
   background-color: white;
@@ -51,9 +51,10 @@ body {
 
 .card.float {
   position: relative;
+  padding: 16px 32px;
   top: 10%;
   margin: auto;
-  width: 80%;
+  max-width: 80%;
 
   border-style: none;
   box-shadow: 

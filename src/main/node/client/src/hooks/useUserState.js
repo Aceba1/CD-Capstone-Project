@@ -28,13 +28,14 @@ export default function useUserState() {
       setJwt(body.jwt);
       setId(body.userId);
     } else {
+      reportTop("err", "Something went wrong: Body is missing");
       console.log("Body is missing!")
     }
-    if (loggedIn) {
-      reportTop("info", "Verification success");
-    } else {
-      reportTop("info", "Login success");
-    }
+    // if (loggedIn) {
+    //   reportTop("info", "Verification success");
+    // } else {
+    //   reportTop("info", "Login success");
+    // }
     setLoggedIn(true);
     setVerified(true);
   }
