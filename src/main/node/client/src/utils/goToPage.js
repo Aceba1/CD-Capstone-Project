@@ -4,15 +4,14 @@
  * @param {string} path 
  * @param {string | string[]} params Key & Value
  */
-export default function goToPage(path, params = null) {
+export function goTo(path, params = null) {
   suffix = "";
   if (params) {
     if (params instanceof Array) {
       suffix = "?" + encodeURI(params[0]);
       i = 0;
-      while (++i < params.length) {
+      while (++i < params.length)
         suffix += "&" + encodeURI(params[i]);
-      }
     }
     else if (params instanceof String)
       suffix = "?" + encodeURI(params);
@@ -21,4 +20,17 @@ export default function goToPage(path, params = null) {
   }
 
   window.location = path + suffix;
+}
+
+/**
+ * 
+ * @param {string} path 
+ * @param {URLSearchParams} params 
+ */
+export function goToWithParam(path, params) {
+  window.location = path + "?" +  params.toString();
+}
+
+export function goToParam(defaultPath = "/") {
+
 }
