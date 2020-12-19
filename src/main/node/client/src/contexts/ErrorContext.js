@@ -12,6 +12,7 @@ export default function ErrorContextProvider(props) {
    * @param {string} type 
    * @param {string} message */
   const reportTop = (type, message) => {
+    console.log(type, message);
     _top.push({
       type: type[0],
       message: message
