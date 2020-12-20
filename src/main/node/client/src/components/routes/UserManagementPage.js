@@ -5,10 +5,11 @@ import Button from '../Button'
 import BasicPage from './BasicPage'
 
 function UserManagementPage() {
-  const {disconnect, verified} = useContext(UserContext);
-  useEnsureVerifiedState(() => {}, () => {
-    window.location = "/user/login?redir=/user";
-  })
+  const {disconnect, verified, name, email} = useContext(UserContext);
+  
+  const goToLogin = () => window.location = "/user/login?redir=%2Fuser";
+
+  useEnsureVerifiedState(null, goToLogin, goToLogin)
 
   return (
     <BasicPage className="page-user">
