@@ -19,10 +19,14 @@ function UserManagementPage() {
         <span style={{fontStyle: "italic"}}>Loading...</span>
         </>
       ) : (
+        <>
+        <p>Username: <code>{name}</code></p>
+        <p>Email: <code>{email}</code></p>
         <Button text="Logout" onClick={() => {
           disconnect();
           window.location = "/";
         }} />
+        </>
       )}
 
     </BasicPage>
