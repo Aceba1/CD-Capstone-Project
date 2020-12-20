@@ -25,6 +25,13 @@ body {
   margin: 8px;
 }
 
+.button-user {
+  color: black;
+  background-color: lightskyblue;;
+  padding: 4px 12px;
+  margin: 8px;
+}
+
 .page {
   padding: 8px;
   flex-grow: 1;
