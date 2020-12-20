@@ -8,11 +8,6 @@ import org.bson.types.ObjectId;
 
 public final class User {
 
-  public static final int MIN_USERNAME_LENGTH = 3;
-  public static final int MAX_USERNAME_LENGTH = 20;
-  public static final int MIN_PASSWORD_LENGTH = 6;
-  public static final int MAX_PASSWORD_LENGTH = 100;
-
   public User() { }
 
   public User(String name, String email, String password) {
