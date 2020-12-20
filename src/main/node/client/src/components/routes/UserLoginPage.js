@@ -3,11 +3,15 @@ import useLoginState from '../../hooks/useLoginState';
 import Button from '../Button'
 import Input from '../Input'
 import FormBasicPage from './FormBasicPage'
+import useEnsureVerifiedState from "../../hooks/useEnsureVerifiedState";
 import ButtonSubmit from '../ButtonSubmit';
 
 function UserLoginPage() {
 
-  const { cred, setCred, pass, setPass, attemptLogin, checkingLogin } = useLoginState();
+  const { cred, setCred, pass, setPass, attemptLogin } = useLoginState();
+  const checkingLogin = useEnsureVerifiedState(() => {
+    window.location = new URLSearchParams(window.location.search).get("redir") ?? "/";
+  });
 
   return (
     <FormBasicPage onSubmit={attemptLogin} >
@@ -18,8 +22,8 @@ function UserLoginPage() {
         </>
       ) : (
         <>
-        <Input ph="Credential" value={cred} setValue={setCred} /><br />
-        <Input ph="Password" value={pass} setValue={setPass} type="password" /><br />
+        <Input ph="Username or Email" value={cred} setValue={setCred} required /><br />
+        <Input ph="Password" value={pass} setValue={setPass} type="password" required /><br />
         <ButtonSubmit text="Login" /><br />
         <br />
         <div>
