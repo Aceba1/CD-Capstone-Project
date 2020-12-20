@@ -29,8 +29,14 @@ export default function ErrorContextProvider(props) {
     setTop([..._top]);
   }
 
+  const clearTop = () => {
+    _top.splice(0);
+
+    setTop(_top);
+  }
+
   return (
-    <ErrorContext.Provider value={{reportTop, removeTop, top}}>
+    <ErrorContext.Provider value={{reportTop, removeTop, top, clearTop}}>
       {props.children}
     </ErrorContext.Provider>
   )
