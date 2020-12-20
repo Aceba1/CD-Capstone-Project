@@ -20,7 +20,7 @@ function FormBasicPage(props) {
   )
 }
 
-UserBasicPage.propTypes = {
+FormBasicPage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   children: PropTypes.node
 }
