@@ -9,6 +9,7 @@ function Input(props) {
       value={props.value}
       onChange={e=>props.setValue(e.target.value)}
       placeholder={props.ph}
+      required={props.required}
     />
   )
 }
@@ -18,7 +19,8 @@ Input.propTypes = {
   setValue: PropTypes.func,
   ph: PropTypes.string,
   className: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
+  required: PropTypes.bool
 }
 
 export default Input
