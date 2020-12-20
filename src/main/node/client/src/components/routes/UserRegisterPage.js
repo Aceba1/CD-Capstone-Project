@@ -1,11 +1,10 @@
 import React from 'react'
-import UserBasicPage from './UserBasicPage'
+import FormBasicPage from './FormBasicPage'
 
 function UserRegisterPage(props) {
   return (
-    <UserBasicPage>
-    <h1>Register User</h1>
-    </UserBasicPage>
+    <FormBasicPage onSubmit={attemptRegister} >
+    </FormBasicPage>
   )
 }
 

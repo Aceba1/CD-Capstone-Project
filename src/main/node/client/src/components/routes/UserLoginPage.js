@@ -2,14 +2,15 @@ import React from 'react'
 import useLoginState from '../../hooks/useLoginState';
 import Button from '../Button'
 import Input from '../Input'
-import UserBasicPage from './UserBasicPage'
+import FormBasicPage from './FormBasicPage'
+import ButtonSubmit from '../ButtonSubmit';
 
-function UserLoginPage(props) {
+function UserLoginPage() {
 
   const { cred, setCred, pass, setPass, attemptLogin, checkingLogin } = useLoginState();
 
   return (
-    <UserBasicPage>
+    <FormBasicPage onSubmit={attemptLogin} >
       <h1>Login User</h1>
       { checkingLogin ? (
         <>
@@ -19,7 +20,7 @@ function UserLoginPage(props) {
         <>
         <Input ph="Credential" value={cred} setValue={setCred} /><br />
         <Input ph="Password" value={pass} setValue={setPass} type="password" /><br />
-        <Button text="Login" onClick={attemptLogin} /><br />
+        <ButtonSubmit text="Login" /><br />
         <br />
         <div>
           Need an account?
@@ -27,7 +28,7 @@ function UserLoginPage(props) {
         </div>
         </>
       )}
-    </UserBasicPage>
+    </FormBasicPage>
   )
 }
 
